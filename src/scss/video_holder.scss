@@ -1,0 +1,120 @@
+.video_holder {
+  background-color: #ffffff21;
+  border-radius: 2rem;
+  transition: background-color 0.3s ease;
+  margin: auto;
+  will-change: transform;
+
+  --tx: 0px;
+  --ty: 0px;
+
+  transform: translate(var(--tx), var(--ty));
+  
+  &.hover_in_big {
+    background-color: #ffffff79;
+    animation: hover_in_big 0.3s ease forwards;
+
+    border: 1px solid #1f1f22;
+  }
+  &.hover_out_big {
+    animation: hover_out_big 0.2s ease;
+  }
+
+  &.hover_in_small {
+    background-color: #ffffff79;
+    animation: hover_in_small 0.3s ease forwards;
+
+    border: 1px solid #1f1f22;
+  }
+  &.hover_out_small {
+    animation: hover_out_small 0.2s ease;
+  }
+
+  .vid_item {
+    video {
+      width: 10rem;
+      height: 10rem;
+    }
+  }
+}
+
+.no_item {
+  margin-top: 8rem;
+  width: 30rem;
+  height: 18rem;
+}
+
+.has_item {
+  width: 80rem;
+  min-height: 30rem;
+  max-height: 50rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  padding: 1rem;
+  margin-right: 10rem;
+  
+  // 
+  overflow-y: auto;
+   &::-webkit-scrollbar {
+    width: 0.7rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent; 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 100, 100, 0.7);
+  }
+}
+
+@keyframes hover_in_big {
+  0% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+  70% {
+    transform: translate(var(--tx), var(--ty)) scale(1.13);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1.1);
+  }
+}
+@keyframes hover_out_big {
+  0% {
+    transform: translate(var(--tx), var(--ty)) scale(1.1);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+}
+
+@keyframes hover_in_small {
+  0% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+  70% {
+    transform: translate(var(--tx), var(--ty)) scale(1.05);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1.03);
+  }
+}
+@keyframes hover_out_small {
+  0% {
+    transform: translate(var(--tx), var(--ty)) scale(1.03);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+}

@@ -1,0 +1,16 @@
+.config_panerl {
+  position: absolute;
+  left: 10rem;
+  z-index: 100;
+
+  .setting_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+  }
+}
+
+.panerl_open {
+  left: 0;
+}

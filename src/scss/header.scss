@@ -1,0 +1,19 @@
+@mixin absoluteSt($top, $left, $width) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  width: $width;
+}
+
+header {
+  @include absoluteSt(0, 0, 100%);
+  opacity: 0;
+
+  .logo {
+    @include absoluteSt(2rem, 50%, 4rem);
+  }
+
+  .config_button {
+    @include absoluteSt(2rem, 2rem, 4rem);
+  }
+}
