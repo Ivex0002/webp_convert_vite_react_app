@@ -5,7 +5,8 @@ FFmpeg;
 
 export const useVideoStore = create((set) => ({
   vidList: [],
-  setVidList: (newVid) => set((state) => ({ vidList: [...state.vidList, ...newVid] })),
+  setVidList: (newVid) =>
+    set((state) => ({ vidList: [...state.vidList, ...newVid] })),
   reSet: () => set({ vidList: [] }),
 }));
 
@@ -163,10 +164,23 @@ export const useSettingsStore = create(
       generateFfmpegCommand: (inputFile) => {
         const { type, size, frame } = get().userSettings;
 
+        if (typeof inputFile === "string") {
+          inputFile = { name: `${inputFile}.mp4` };
+        }
+
+        if (!inputFile || !inputFile.name) {
+          console.error(
+            "잘못된 인풋 파일: 유효한 File 객체가 필요합니다. (inputFile: ",
+            inputFile,
+            ")"
+          );
+          return { command: [], outputFileName: "" };
+        }
+
         const outputFileName =
-          inputFile.substring(0, inputFile.lastIndexOf(".")) +
+          inputFile.name.substring(0, inputFile.name.lastIndexOf(".")) +
           `.${type.toLowerCase()}`;
-        const args = ["-i", inputFile, "-c:v", type.toLowerCase()];
+        const args = ["-i", inputFile.name, "-c:v", type.toLowerCase()];
 
         if (size.mode === SETTINGS.SIZE_MODE.RATIO) {
           args.push("-vf", `scale=iw*${size.ratio}/100:ih*${size.ratio}/100`);

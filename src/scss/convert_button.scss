@@ -1,1 +1,36 @@
+.convert_div {
+  button {
+    position: fixed;
+    top: 15rem;
+    right: 4rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    color: black;
+    transition: all 0.2s ease;
+    z-index: 999;
+    &:hover {
+      cursor: pointer;
+      background-color: #ffffffc5;
+    }
+  }
 
+  .ffmpeg_load_msg{
+    margin-top: 3rem;
+  }
+
+  .system_log {
+    margin-top: 4rem;
+    background-color: #c7c7c7;
+    border-radius: 0.2rem;
+    display: inline-block;
+      width: auto;
+
+    p {
+      display: inline-block;
+      width: auto;
+      white-space: wrap;
+    }
+  }
+}

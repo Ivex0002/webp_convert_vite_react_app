@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import "../scss/setting_panel.scss";
 import { SETTINGS, useSettingPanelOpenStore, useSettingsStore } from "../store";
 
@@ -17,7 +17,9 @@ export default function SettingPanel() {
         <Size></Size>
         <Frame></Frame>
         <Command></Command>
-        <button className="reset" onClick={resetUserSettings}></button>
+        <button className="reset" onClick={resetUserSettings}>
+          리셋
+        </button>
       </div>
     </div>
   );
@@ -29,6 +31,7 @@ function Type() {
 
   return (
     <div className="type">
+      타입 :
       <select
         value={type}
         onChange={(e) => setUserSettings({ type: e.target.value })}
@@ -60,6 +63,7 @@ function Size() {
   }
 
   const handleCustomSize = (option, value) => {
+    console.log("value", value);
     setUserSettings({
       size: {
         custom: {
@@ -68,18 +72,21 @@ function Size() {
         },
       },
     });
+
+    console.log("getUserSettings", getUserSettings());
   };
 
   return (
     <div className="size">
       <div className="size_option">
+        사이즈 :
         <select
           value={size_option}
           onChange={(e) => setUserSettings({ size: { mode: e.target.value } })}
         >
           {Object.values(SETTINGS.SIZE_MODE).map((mode) => (
             <option key={mode} value={mode}>
-              {mode}
+              {mode === "ratio" ? "비율" : "직접 설정"}
             </option>
           ))}
         </select>
@@ -98,16 +105,19 @@ function Size() {
       ) : (
         <div className="size_custom">
           <input
+            title="가로 길이 입력"
             type="number"
             value={size_custom.width}
-            onChange={(e) => handleCustomSize(width, e.target.value)}
+            onChange={(e) => handleCustomSize("width", e.target.value)}
             placeholder="가로 입력"
             min="1"
           />
+          x
           <input
+            title="세로 길이 입력"
             type="number"
             value={size_custom.height}
-            onChange={(e) => handleCustomSize(height, e.target.value)}
+            onChange={(e) => handleCustomSize("height", e.target.value)}
             placeholder="세로 입력"
             min="1"
           />
@@ -125,6 +135,7 @@ function Frame() {
   return (
     <div className="frame">
       <div className="frame_mode">
+        프레임 :
         <select
           value={frame_mode}
           onChange={(e) => setUserSettings({ frame: { mode: e.target.value } })}
@@ -161,10 +172,38 @@ function Command() {
   const userSetting = getUserSettings();
   const { isCommand, customCommand } = userSetting.command;
 
-  const {command} = useMemo(
+  const { command } = useMemo(
     () => generateFfmpegCommand("inputfile"),
     [userSetting]
   );
+  // console.log("command", command);
+
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      const ta = textareaRef.current;
+      ta.style.height = "auto";
+      ta.style.height = `${ta.scrollHeight+2}px`;
+    }
+  }, [command, isCommand]);
+
+  useEffect(() => {
+    isCommand
+      ? setUserSettings({ command: { customCommand: command } })
+      : setUserSettings({ command: { customCommand: "" } });
+  }, [isCommand]);
+
+  const formattedPlaceholder = isCommand
+    ? ""
+    : `현재 명령어 :\n${command
+        .join(" ")
+        .split("-")
+        .filter(Boolean)
+        .map((el) => "-" + el.trim())
+        .join("\n")}`;
+
+  console.log(formattedPlaceholder);
 
   return (
     <div className="command">
@@ -178,21 +217,16 @@ function Command() {
         />
         사용자 지정 ffmpeg 명령어 사용
       </label>
-      <div className="command_text">
-        {isCommand ? (
-          <input
-            className="custom_command"
-            type="text"
-            value={customCommand}
-            onChange={(e) =>
-              setUserSettings({ command: { customCommand: e.target.value } })
-            }
-            placeholder={"명령 입력"}
-          />
-        ) : (
-          <div className="preset_command">현재 명령어 : {command}</div>
-        )}
-      </div>
+      <textarea
+        className="current_command"
+        ref={textareaRef}
+        value={customCommand}
+        onChange={(e) =>
+          setUserSettings({ command: { customCommand: e.target.value } })
+        }
+        placeholder={formattedPlaceholder}
+        rows={1}
+      />
     </div>
   );
 }
