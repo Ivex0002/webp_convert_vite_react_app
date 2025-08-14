@@ -4,11 +4,16 @@
   box-sizing: border-box;
 }
 
+
 #root {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.app{
+  display: flex;
 }
 
 .active {

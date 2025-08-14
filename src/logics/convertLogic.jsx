@@ -59,7 +59,7 @@ import { SETTINGS} from "../store";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 
 const ffmpeg = new FFmpeg();
-
+ 
 export const convertVideos = async (vidList, userSettings, generateFfmpegCommand) => {
   // const { vidList } = useVideoStore();
   // const { userSettings, generateFfmpegCommand } = useSettingsStore();

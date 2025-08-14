@@ -1,16 +1,38 @@
+.panerl_wrapper {
+  position: absolute;
+  top: 8rem;
+  left: -14rem;
+  transition: all 0.3s ease;
+  &.panerl_open {
+    left: 2rem;
+  }
+}
+
+@mixin input_style {
+  height: 2.1rem;
+  text-align: center;
+  border-radius: 0.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+@mixin input_color {
+  background-color: #ffffff9f;
+  border: 1px solid #00000025;
+}
+
 .config_panerl {
   position: absolute;
-  left: -12rem;
-  top: 6rem;
   z-index: 999;
-  width: 12rem;
-  height: 40rem;
-  background-color: #ffffff88;
+  width: 14rem;
+  background-color: #ffffff7e;
   transition: all 0.2s ease;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   border: 1px solid #00000065;
+  border-radius: 3rem;
+  padding-bottom: 2rem;
 
   .close_button {
     position: absolute;
@@ -29,9 +51,18 @@
     justify-content: center;
     align-items: start;
 
-    div {
-      width: 10rem;
-      margin-top: 1rem;
+    .panel_title,
+    .type,
+    .size,
+    .frame,
+    .command {
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #00000038;
+      width: 12rem;
+    }
+    .command {
+      border: none;
     }
 
     .panel_title {
@@ -40,54 +71,57 @@
     }
 
     .type {
-      select {
-        height: 1.5rem;
-        margin-left: 0.5rem;
-      }
+      display: flex;
+      align-items: center;
     }
 
     .size {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
       .size_option {
-        select {
-          height: 1.5rem;
-          margin-left: 0.5rem;
-        }
+        display: flex;
+        align-items: center;
       }
       .size_ratio {
         display: flex;
-        select {
-          text-align: center;
-          width: 8rem;
-          height: 1.5rem;
-        }
+        justify-content: center;
       }
       .size_custom {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         input {
-          width: 4.4rem;
-          height: 1.5rem;
-          text-align: center;
+          width: 4.5rem;
+          @include input_style;
+          @include input_color;
         }
       }
     }
 
     .frame {
-      select {
-        height: 1.5rem;
-        margin-left: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      .frame_mode {
+        display: flex;
+        align-items: center;
       }
       .frame_custom {
         display: flex;
+        justify-content: center;
         input {
           width: 8rem;
-          height: 1.5rem;
-          text-align: center;
+          @include input_style;
+          @include input_color;
         }
       }
     }
 
     .command {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       label {
         input {
           transform: scale(1.4);
@@ -95,7 +129,9 @@
         }
       }
       .current_command {
-        width: 10rem;
+        @include input_color;
+        padding: 0.5rem;
+        width: 12rem;
         min-height: 2rem;
         resize: none;
         &::placeholder {
@@ -107,14 +143,52 @@
       }
     }
 
-    .reset{
-      margin-top: 2rem;
-      width: 4rem;
-      height: 1.5rem;
+    .reset {
+      @include input_color;
+      @include input_style;
+      width: 6rem;
+      margin: auto;
+    }
+  }
+}
+.select_style {
+  flex: 1;
+  // 사용자에게 표시되는 항목(선택한 것)
+  > div:nth-child(3) {
+    background-color: #ffffffc5;
+    backdrop-filter: blur(0.15rem);
+  }
+  // 사용자가 선택하는 항목
+  > div:nth-child(4) {
+    background-color: #ffffff3a;
+    backdrop-filter: blur(0.15rem);
+    div {
+      transition: all 0.15s ease;
+      & {
+        div:hover {
+          background-color: #00000014;
+        }
+        div[aria-selected="true"] {
+          background-color: #00000057;
+          color: #fff;
+        }
+      }
     }
   }
 }
 
-.panerl_open {
-  left: 0;
+.config_hint{
+  position: fixed;
+  display: flex;
+  top: 22rem;
+  left: 1rem;
+  transition: all 0.4s ease;
+
+  img{
+    width: 2rem;
+  }
+
+  &.hint_close{
+    left: -4.5rem;
+  }
 }

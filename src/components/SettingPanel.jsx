@@ -1,47 +1,70 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "../scss/setting_panel.scss";
-import { SETTINGS, useSettingPanelOpenStore, useSettingsStore } from "../store";
+import { SETTINGS, useSettingsStore } from "../store";
+import { FloatingBox } from "./FloatingBox";
+import Select from "react-select";
 
 export default function SettingPanel() {
-  const { isOpen, togglePanel } = useSettingPanelOpenStore();
+  const [isOpen, setIsOpen] = useState(false);
   const { resetUserSettings } = useSettingsStore();
 
+  useEffect(() => {
+    const handlePanerlByMouse = (e) => {
+      e.clientX < 250 ? setIsOpen(true) : setIsOpen(false);
+      // console.log(e.clientX);
+    };
+    window.addEventListener("mousemove", handlePanerlByMouse);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <div className={`config_panerl ${isOpen ? "panerl_open" : ""}`}>
-      <div className="close_button" onClick={togglePanel}>
-        x
-      </div>
-      <div className="setting_contents">
-        <div className="panel_title">설정</div>
-        <Type></Type>
-        <Size></Size>
-        <Frame></Frame>
-        <Command></Command>
-        <button className="reset" onClick={resetUserSettings}>
-          리셋
-        </button>
+    <div className={`panerl_wrapper ${isOpen ? "panerl_open" : ""}`}>
+      <FloatingBox>
+        <div className={`config_panerl `}>
+          {/* <div className="close_button" onClick={set}>
+            x
+          </div> */}
+          <div className="setting_contents">
+            <div className="panel_title">설정</div>
+            <Type></Type>
+            <Size></Size>
+            <Frame></Frame>
+            <Command></Command>
+            <button className="reset" onClick={resetUserSettings}>
+              리셋
+            </button>
+          </div>
+        </div>
+      </FloatingBox>
+      <div className={`config_hint ${isOpen ? "hint_close" : ""}`}>
+        <img src="/angle_bracket.png" alt="config" />
+        <img src="/config8.png" alt="config" />
       </div>
     </div>
   );
 }
 
 function Type() {
-  const { getUserSettings, setUserSettings } = useSettingsStore();
+  const { setUserSettings, getUserSettings } = useSettingsStore();
   const type = getUserSettings().type;
+  // console.log({type});
+  const typeOptions = Object.values(SETTINGS.TYPE).map((type) => ({
+    value: type,
+    label: type,
+  }));
 
   return (
     <div className="type">
       타입 :
-      <select
-        value={type}
-        onChange={(e) => setUserSettings({ type: e.target.value })}
-      >
-        {Object.values(SETTINGS.TYPE).map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
+      <Select
+        className="select_style"
+        options={typeOptions}
+        defaultValue={typeOptions.find((opt) => opt.value === type)}
+        onChange={(selectedOption) =>
+          setUserSettings({ type: selectedOption.value })
+        }
+        // onMenuClose={()=>{debugger}}
+      ></Select>
     </div>
   );
 }
@@ -52,14 +75,15 @@ function Size() {
   const size_ratio = getUserSettings().size.ratio;
   const size_custom = getUserSettings().size.custom;
 
+  const size_options = Object.values(SETTINGS.SIZE_MODE).map((mode) => ({
+    value: mode,
+    label: mode,
+  }));
+
   // sizePercent 옵션 생성
   const ratioOptions = [];
   for (let i = 100; i >= 10; i -= 10) {
-    ratioOptions.push(
-      <option key={i} value={i}>
-        {i} %
-      </option>
-    );
+    ratioOptions.push({ value: i, label: `${i}%` });
   }
 
   const handleCustomSize = (option, value) => {
@@ -80,7 +104,15 @@ function Size() {
     <div className="size">
       <div className="size_option">
         사이즈 :
-        <select
+        <Select
+          className="select_style"
+          options={size_options}
+          value={size_options.find((opt) => opt.value === size_option)}
+          onChange={(selectedOption) =>
+            setUserSettings({ size: { mode: selectedOption.value } })
+          }
+        ></Select>
+        {/* <select
           value={size_option}
           onChange={(e) => setUserSettings({ size: { mode: e.target.value } })}
         >
@@ -89,18 +121,24 @@ function Size() {
               {mode === "ratio" ? "비율" : "직접 설정"}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
       {size_option === SETTINGS.SIZE_MODE.RATIO ? (
         <div className="size_ratio">
-          <select
-            value={size_ratio}
+          <Select
+            className="select_style"
+            options={ratioOptions}
             onChange={(e) =>
-              setUserSettings({ size: { ratio: parseInt(e.target.value) } })
+              setUserSettings({ size: { ratio: parseInt(e.value) } })
             }
-          >
-            {ratioOptions}
-          </select>
+            defaultValue={ratioOptions[0]}
+            // onMenuClose={() => {
+            //   debugger;
+            // }}
+            // openMenuOnFocus={() => {
+            //   debugger;
+            // }}
+          ></Select>
         </div>
       ) : (
         <div className="size_custom">
@@ -132,11 +170,24 @@ function Frame() {
   const frame_mode = getUserSettings().frame.mode;
   const frame_custom = getUserSettings().frame.custom;
 
+  const frame_modes = Object.values(SETTINGS.FRAME_MODE).map((mode) => ({
+    value: mode,
+    label: mode,
+  }));
+
   return (
     <div className="frame">
       <div className="frame_mode">
         프레임 :
-        <select
+        <Select
+          className="select_style"
+          options={frame_modes}
+          value={frame_modes.find((opt) => opt.value === frame_mode)}
+          onChange={(selectedOption) =>
+            setUserSettings({ frame: { mode: selectedOption.value } })
+          }
+        ></Select>
+        {/* <select
           value={frame_mode}
           onChange={(e) => setUserSettings({ frame: { mode: e.target.value } })}
         >
@@ -145,7 +196,7 @@ function Frame() {
               {frameOption}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
       {frame_mode !== SETTINGS.FRAME_MODE.ORIGINAL && (
         <div className="frame_custom">
@@ -184,7 +235,7 @@ function Command() {
     if (textareaRef.current) {
       const ta = textareaRef.current;
       ta.style.height = "auto";
-      ta.style.height = `${ta.scrollHeight+2}px`;
+      ta.style.height = `${ta.scrollHeight + 2}px`;
     }
   }, [command, isCommand]);
 
@@ -230,3 +281,4 @@ function Command() {
     </div>
   );
 }
+

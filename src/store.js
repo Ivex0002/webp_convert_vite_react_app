@@ -10,17 +10,11 @@ export const useVideoStore = create((set) => ({
   reSet: () => set({ vidList: [] }),
 }));
 
-export const useFfmpegStore = create((set) => ({
-  command: "",
-  setCommand: (newCommand) => set(() => ({ command: newCommand })),
-  resetCommand: set({ command: "" }),
-}));
-
-// 세팅 패널 여닫기
-export const useSettingPanelOpenStore = create((set) => ({
-  isOpen: false,
-  togglePanel: () => set((state) => ({ isOpen: !state.isOpen })),
-}));
+// // 세팅 패널 여닫기
+// export const useSettingPanelOpenStore = create((set) => ({
+//   isOpen: false,
+//   setIsOpen: (boolValue) => set(() => ({ isOpen: boolValue })),
+// }));
 
 // 세팅 구조
 export const SETTINGS = {

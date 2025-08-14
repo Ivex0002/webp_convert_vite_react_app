@@ -1,20 +1,18 @@
 import "./App.css";
-import Header from "./components/Header";
-import Background from "./components/Background";
-import { useSettingPanelOpenStore } from "./store";
-import VideoHolder from "./components/VideoHolder";
 import ConvertButton from "./components/convertButton";
+import Header from "./components/header";
+import Background from "./components/background";
+import VideoHolder from "./components/videoHolder";
+import SettingPanel from "./components/SettingPanel";
 
 function App() {
-  const { isOpen } = useSettingPanelOpenStore();
-
   return (
     <div className="app">
-      <Header/>
-      <Background/>
-      <VideoHolder/>
-      <ConvertButton/>
-      <div className={`overlay ${isOpen ? "active" : ""}`}></div>
+      <Header />
+      <Background />
+      <VideoHolder />
+      <SettingPanel/>
+      <ConvertButton />
     </div>
   );
 }

@@ -1,10 +1,10 @@
-
 // 2차 시도
 import { useState, useRef, useEffect } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import { SETTINGS, useSettingsStore, useVideoStore } from "../store";
 import "../scss/convert_button.scss";
+import { FloatingBox } from "./FloatingBox";
 
 export default function ConvertButton() {
   const { vidList } = useVideoStore();
@@ -14,6 +14,17 @@ export default function ConvertButton() {
   const [loadingError, setLoadingError] = useState(null);
   const ffmpegRef = useRef(new FFmpeg());
   const messageRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handlePanerlByMouse = (e) => {
+      const rightX = window.innerWidth - e.clientX;
+      rightX < 250 ? setIsOpen(true) : setIsOpen(false);
+      // console.log(rightX);
+    };
+    window.addEventListener("mousemove", handlePanerlByMouse);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const loadFFmpeg = async () => {
@@ -106,16 +117,32 @@ export default function ConvertButton() {
       {loadingError ? (
         <p style={{ color: "red" }}>{loadingError}</p>
       ) : !loaded ? (
-        <p className="ffmpeg_load_msg">FFmpeg 로드 중... 잠시만 기다려 주세요.</p>
+        <p className="ffmpeg_load_msg">
+          FFmpeg 로드 중... 잠시만 기다려 주세요.
+        </p>
       ) : (
         <>
-          <button
-            id="convert_floating_button"
-            onClick={convertVideos}
-            disabled={converting || vidList.length === 0}
-          >
-            {converting ? "Converting..." : "Convert Now"}
-          </button>
+          {vidList.length > 0 ? (
+            <>
+              <div
+                className={`convert_button_hint ${isOpen ? "hint_close" : ""}`}
+              >
+                convert
+                <img src="/angle_bracket.png" alt="" />
+              </div>
+                  <div className={`button_wrapper ${isOpen ? "convert_button_open" : ""
+                    }`}>
+                <FloatingBox>
+                  <button
+                    onClick={convertVideos}
+                    disabled={converting || vidList.length === 0}
+                  >
+                    {converting ? "Converting..." : "Convert Now"}
+                  </button>
+                </FloatingBox>
+              </div>
+            </>
+          ) : null}
           <div className="system_log">
             <p ref={messageRef}></p>
           </div>
@@ -125,17 +152,10 @@ export default function ConvertButton() {
   );
 }
 
-
 async function loadffmpegURL(ffmpeg, baseURL) {
   await ffmpeg.load({
-    coreURL: await toBlobURL(
-      `${baseURL}/ffmpeg-core.js`,
-      "text/javascript"
-    ),
-    wasmURL: await toBlobURL(
-      `${baseURL}/ffmpeg-core.wasm`,
-      "application/wasm"
-    ),
+    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
     workerURL: await toBlobURL(
       `${baseURL}/ffmpeg-core.worker.js`,
       "text/javascript"
