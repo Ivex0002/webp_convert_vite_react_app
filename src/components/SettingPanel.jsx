@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../scss/setting_panel.scss";
-import { SETTINGS, useSettingsStore } from "../store";
+import { SETTINGS, useSettingsStore } from "../store/videoSettingStore";
 import { FloatingBox } from "./FloatingBox";
 import Select from "react-select";
 

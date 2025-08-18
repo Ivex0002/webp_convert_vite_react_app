@@ -8,6 +8,7 @@ export default defineConfig({
     proxy: {
       "/ffmpeg": {
         target: "https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm",
+        // 이거 배포에서 작동안함...
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ffmpeg/, ""),
       },

@@ -2,9 +2,9 @@
 import { useState, useRef, useEffect } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
-import { SETTINGS, useSettingsStore, useVideoStore } from "../store";
 import "../scss/convert_button.scss";
 import { FloatingBox } from "./FloatingBox";
+import { SETTINGS, useSettingsStore, useVideoStore } from "../store/videoSettingStore";
 
 export default function ConvertButton() {
   const { vidList } = useVideoStore();
@@ -29,7 +29,7 @@ export default function ConvertButton() {
   useEffect(() => {
     const loadFFmpeg = async () => {
       const ffmpeg = ffmpegRef.current;
-      const baseURL = "/ffmpeg";
+      const baseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core-mt@0.12.10/dist/esm";
 
       try {
         ffmpeg.on("log", ({ message }) => {
@@ -130,8 +130,11 @@ export default function ConvertButton() {
                 convert
                 <img src="/angle_bracket.png" alt="" />
               </div>
-                  <div className={`button_wrapper ${isOpen ? "convert_button_open" : ""
-                    }`}>
+              <div
+                className={`button_wrapper ${
+                  isOpen ? "convert_button_open" : ""
+                }`}
+              >
                 <FloatingBox>
                   <button
                     onClick={convertVideos}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../scss/video_holder.scss";
-import { useVideoStore } from "../store";
+import { useVideoStore } from "../store/videoSettingStore";
 import { FloatingBox } from "./FloatingBox";
 
 export default function VideoHolder() {
