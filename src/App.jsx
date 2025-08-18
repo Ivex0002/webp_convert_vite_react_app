@@ -1,5 +1,5 @@
 import "./App.css";
-import ConvertButton from "./components/convertButton";
+import ConvertButton from "./components/ConvertButton";
 import Header from "./components/header";
 import Background from "./components/background";
 import VideoHolder from "./components/videoHolder";
