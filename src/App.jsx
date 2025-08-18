@@ -1,8 +1,8 @@
 import "./App.css";
 import ConvertButton from "./components/ConvertButton";
-import Header from "./components/header";
-import Background from "./components/background";
-import VideoHolder from "./components/videoHolder";
+import Header from "./components/Header";
+import Background from "./components/Background";
+import VideoHolder from "./components/VideoHolder";
 import SettingPanel from "./components/SettingPanel";
 
 function App() {
