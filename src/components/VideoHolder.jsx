@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "../scss/video_holder.scss";
 import { useVideoStore } from "../store";
 import { FloatingBox } from "./FloatingBox";
 
 export default function VideoHolder() {
   const [hoverIndex, setHoverIndex] = useState(null);
-  const holderRef = useRef(null);
-  // const elementCenter = useRef({ x: 0, y: 0 });
   const { vidList, setVidList } = useVideoStore();
   const [previewList, setPreviewList] = useState([]);
+  // const elementCenter = useRef({ x: 0, y: 0 });
   // const [holderMoveRate, setHolderMoveRate] = useState(0.02);
 
   // useEffect(() => {
@@ -100,6 +99,7 @@ export default function VideoHolder() {
     //   onMouseLeave={() => handleHoverAni(false)}
     //   onClick={() => handleUploadVid()}
     // >
+    // </div>
     <div className="video_holder">
       {vidList.length === 0 ? (
         <FloatingBox>
@@ -109,20 +109,39 @@ export default function VideoHolder() {
         </FloatingBox>
       ) : (
         <div className="grid_video">
-          {previewList.map(({url}, index) => (
-          <FloatingBox key={index} isOn={hoverIndex === index}>
+          {previewList.map(({ url }, index) => (
+            <FloatingBox key={index} isOn={hoverIndex === index}>
+              <div
+                className="vid_item"
+                onMouseEnter={() => setHoverIndex(index)}
+                onMouseLeave={() => setHoverIndex(null)}
+              >
+                <video
+                  src={url}
+                  controls
+                  muted
+                  className="preview_video"
+                ></video>
+              </div>
+            </FloatingBox>
+          ))}
+          <FloatingBox
+            key={vidList.length}
+            isOn={hoverIndex === vidList.length}
+          >
             <div
               className="vid_item"
-              onMouseEnter={() => setHoverIndex(index)}
+              onMouseEnter={() => setHoverIndex(vidList.length)}
               onMouseLeave={() => setHoverIndex(null)}
             >
-              <video src={url} controls muted className="preview_video"></video>
+              <div className="plus_button" onClick={() => handleUploadVid()}>
+                +
+              </div>
             </div>
           </FloatingBox>
-          ))}
         </div>
       )}
     </div>
-    // </div>
   );
 }
+

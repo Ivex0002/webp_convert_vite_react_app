@@ -30,7 +30,12 @@ export default function SettingPanel() {
             <Size></Size>
             <Frame></Frame>
             <Command></Command>
-            <button className="reset" onClick={resetUserSettings}>
+            <button
+              className="reset"
+              onClick={() => {
+                resetUserSettings();
+              }}
+            >
               리셋
             </button>
           </div>
@@ -59,7 +64,7 @@ function Type() {
       <Select
         className="select_style"
         options={typeOptions}
-        defaultValue={typeOptions.find((opt) => opt.value === type)}
+        value={typeOptions.find((opt) => opt.value === type)}
         onChange={(selectedOption) =>
           setUserSettings({ type: selectedOption.value })
         }
@@ -128,6 +133,7 @@ function Size() {
           <Select
             className="select_style"
             options={ratioOptions}
+            value={ratioOptions.find((opt) => opt.value === size_ratio)}
             onChange={(e) =>
               setUserSettings({ size: { ratio: parseInt(e.value) } })
             }
@@ -281,4 +287,3 @@ function Command() {
     </div>
   );
 }
-

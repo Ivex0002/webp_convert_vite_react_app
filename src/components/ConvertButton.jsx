@@ -19,7 +19,7 @@ export default function ConvertButton() {
   useEffect(() => {
     const handlePanerlByMouse = (e) => {
       const rightX = window.innerWidth - e.clientX;
-      rightX < 250 ? setIsOpen(true) : setIsOpen(false);
+      rightX < 190 ? setIsOpen(true) : setIsOpen(false);
       // console.log(rightX);
     };
     window.addEventListener("mousemove", handlePanerlByMouse);

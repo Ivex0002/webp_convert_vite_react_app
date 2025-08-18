@@ -1,4 +1,3 @@
-import logo from "../assets/logo.png";
 import "../scss/header.scss";
 
 export default function Header() {
@@ -7,7 +6,7 @@ export default function Header() {
     <header>
       {/* 로고 */}
       <div className="logo">
-        <img src={logo} alt="" />
+        <img src="/logo.png" alt="" />
         convert to webp
       </div>
     </header>

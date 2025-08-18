@@ -169,8 +169,6 @@
     background-color: #0000001a;
     border-radius: 0.3rem;
   }
-  // -webkit-mask-image: linear-gradient(to bottom, transparent 0rem, black 1rem);
-  // mask-image: linear-gradient(to bottom, transparent 0rem, black 1rem);
 
   .guide_text {
     @include video_style;
@@ -187,7 +185,8 @@
     width: 100%;
     min-width: 16rem;
     grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-    gap: 2rem;
+    row-gap: 2.4rem;
+    column-gap: 2rem; 
 
     .vid_item {
       @include video_style;
@@ -195,8 +194,15 @@
       border-radius: 0.5rem;
       width: fit-content;
 
-      video {
-        width: 16rem;
+      video, .plus_button {
+        width: 15.5rem;
+      }
+      .plus_button{
+        height: 15.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
       }
     }
   }

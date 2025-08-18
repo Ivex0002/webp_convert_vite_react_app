@@ -66,21 +66,29 @@ export const convertVideos = async (vidList, userSettings, generateFfmpegCommand
 
   try {
     if (!ffmpeg.isLoaded()) {
-      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
+      // const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
+       const version = "0.10";
+       const baseURL = `https://cdn.jsdelivr.net/npm/@ffmpeg/core@${version}/dist`;
 
+      // await ffmpeg.load({
+      //   coreURL: await toBlobURL(
+      //     `${baseURL}/ffmpeg-core.js`,
+      //     "text/javascript"
+      //   ),
+      //   wasmURL: await toBlobURL(
+      //     `${baseURL}/ffmpeg-core.wasm`,
+      //     "application/wasm"
+      //   ),
+      //   workerURL: await toBlobURL(
+      //     `${baseURL}/ffmpeg-core.worker.js`,
+      //     "text/javascript"
+      //   ),
+      // });
       await ffmpeg.load({
-        coreURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.js`,
-          "text/javascript"
-        ),
-        wasmURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.wasm`,
-          "application/wasm"
-        ),
-        workerURL: await toBlobURL(
-          `${baseURL}/ffmpeg-core.worker.js`,
-          "text/javascript"
-        ),
+        // v0.10 에서는 corePath/wasmPath/workerPath 사용
+        corePath: `${baseURL}/ffmpeg-core.js`,
+        wasmPath: `${baseURL}/ffmpeg-core.wasm`,
+        workerPath: `${baseURL}/ffmpeg-core.worker.js`,
       });
     }
 
