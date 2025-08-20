@@ -104,7 +104,7 @@ export default function VideoHolder() {
       {vidList.length === 0 ? (
         <FloatingBox>
           <div className="guide_text" onClick={() => handleUploadVid()}>
-            여기를 눌러 비디오를 업로드 하세요
+            여기를 눌러 비디오를 업로드 하세요...
           </div>
         </FloatingBox>
       ) : (
