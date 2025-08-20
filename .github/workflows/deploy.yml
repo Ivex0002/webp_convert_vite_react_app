@@ -39,3 +39,6 @@ jobs:
         run: |
           aws s3 rm --recursive s3://convert-to-webp
           aws s3 cp ./dist/ s3://convert-to-webp/ --recursive
+
+      - name: 클라우드프론트 캐시 무효화
+        run: aws cloudfront create-invalidation --distribution-id E32HRSRSZKLP1M --paths "/*"
