@@ -8,22 +8,18 @@ on:
 jobs:
   my-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: github repository 파일 불러오기
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
+      - name: 의존성 설치
+        run: npm i
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: 디렉토리 출력하기
+      #   run: ls
 
-      - name: Build application
+      - name: 빌드하기
         run: npm run build
 
-      - name: List build output
-        run: ls -R .
+      - name: 디렉토리 출력하기
+        run: ls
