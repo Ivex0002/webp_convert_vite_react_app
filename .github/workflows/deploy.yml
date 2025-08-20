@@ -1,0 +1,19 @@
+name: github actions practice
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Hello
+        run: echo "Hello GitHub Actions!"
+
+      - name: 여러 명령어 작성하기
+        run : |
+          echo "good"
+          echo "afternoon"
+          pwd
