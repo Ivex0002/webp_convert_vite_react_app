@@ -17,3 +17,8 @@ jobs:
           echo "good"
           echo "afternoon"
           pwd
+
+      - name : 깃헙 자체적인 변수 사용해보기
+        run : |
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_SHA
