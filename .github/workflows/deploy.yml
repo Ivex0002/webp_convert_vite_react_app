@@ -12,5 +12,11 @@ jobs:
       - name: github repository 파일 불러오기
         uses: actions/checkout@v4
 
-      - name: github repository 파일 출력하기
+      # - name: 디렉토리 출력하기
+      #   run: ls
+
+      - name: 빌드하기
+        run: npm run build
+
+      - name: 디렉토리 출력하기
         run: ls
