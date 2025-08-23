@@ -12,6 +12,9 @@
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "comlink": "^4.4.2",
+    "jszip": "^3.10.1",
+    "p-limit": "^7.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-select": "^5.10.2",
