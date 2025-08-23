@@ -52,7 +52,7 @@ export default function ConvertButton() {
             <FloatingBox>
               <button
                 onClick={convertVideos}
-                disabled={converting || vidList.length === 0}
+                disabled={ vidList.length === 0}
               >
                 "Convert Now"
               </button>
